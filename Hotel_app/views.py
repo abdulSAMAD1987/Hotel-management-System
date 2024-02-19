@@ -27,13 +27,13 @@ class HotelListView(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         sort_order = self.request.GET.get('sort', 'newest')
-        price_range = self.request.GET.get('price_range')
+        # price_range = self.request.GET.get('price_range')
 
         hotels = Hotel.objects.all()
 
-        if price_range:
-            min_price, max_price = map(int, price_range.split('-'))
-            hotels = hotels.filter(price__range=(min_price, max_price))
+        # if price_range:
+        #     min_price, max_price = map(int, price_range.split('-'))
+        #     hotels = hotels.filter(price__range=(min_price, max_price))
 
         if sort_order == 'ascending':
             hotels = hotels.order_by('price')
