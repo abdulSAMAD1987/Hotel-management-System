@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Hotel List</h2>
+
+        <div class="d-flex justify-content-between">
+            <form method="get">
+{#                <label for="price_min">Minimum Price:</label><br>#}
+{#                    <input type="text" id="price_min" name="price_min">#}
+{#                <label for="price_max">Maximum Price:</label><br>#}
+{#                    <input type="text" id="price_max" name="price_max">#}
+
+                                <label for="price_range">Price Range:</label>
+                                <label>
+                                    <select name="price_range">
+                                        <option value="">Select</option>
+                                        <option value="0-1000" {% if request.GET.price_range == '0-1000' %}selected{% endif %}>0 -
+                                            1000
+                                        </option>
+                                        <option value="1001-2000" {% if request.GET.price_range == '1001-2000' %}selected{% endif %}>
+                                            1001 - 2000
+                                        </option>
+                                        <option value="9001-10000" {% if request.GET.price_range == '9001-10000' %}selected{% endif %}>
+                                            9001 - 10000
+                                        </option>
+                                    </select>
+                                </label>
+                                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </form>
+
+
+            {#                    <form method="get">#}
+            {#                        {{ filter_form.as_p }}#}
+            {#                        <button type="submit" class="btn btn-primary">Apply Filters</button>#}
+            {#                    </form>#}
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Sort by
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="{% url 'hotel_list' %}?sort=ascending">Price Ascending</a>
+                    <a class="dropdown-item" href="{% url 'hotel_list' %}?sort=descending">Price Descending</a>
+                    <a class="dropdown-item" href="{% url 'hotel_list' %}?sort=low_to_high">Price Low to High</a>
+                    <a class="dropdown-item" href="{% url 'hotel_list' %}?sort=high_to_low">Price High to Low</a>
+                    <a class="dropdown-item" href="{% url 'hotel_list' %}?sort=newest">Newest First</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for i in hotels %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <p>
+                            <a href="{% url 'hotel_detail' pk=i.pk %}">
+                                <img src="{{ i.images.url }}" class="card-img-top" alt="{{ i.name }}">
+                            </a>
+                        </p>
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'hotel_detail' pk=i.pk %}"
+                                                      class="text-decoration-none">{{ i.name }}</a></h5>
+                            <p class="card-text">Price: ${{ i.price }}</p>
+                            <a href="{% url 'hotel_edit' pk=i.pk %}" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'hotel_delete' pk=i.pk %}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

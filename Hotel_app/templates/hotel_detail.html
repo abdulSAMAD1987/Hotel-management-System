@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>{{ hotel.name }}</h1>
+        <p class="lead">Price: ${{ hotel.price }}</p>
+        <p class="lead">{{ hotel.descriptions }} </p>
+        <p>
+            <img src="{{ hotel.images.url }}" class="card-img-top" alt="{{ hotel.name }}">
+        </p>
+
+        <div class="row">
+            {% for image in hotel.hotelimages_set.all %}
+                <div class="col-md-6 mb-4">
+                    <img src="{{ image.image.url }}" alt="{{ hotel.name }}" class="img-fluid">
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <a href="{% url 'hotel_edit' pk=hotel.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'hotel_delete' pk=hotel.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+{% endblock %}
